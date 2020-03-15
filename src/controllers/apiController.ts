@@ -5,6 +5,10 @@ export const ApiController = ( router: Router) => {
     router.get('/', (req: Request, res: Response, next: NextFunction) => {
         console.log('this is the api subdomain')
         res.status(200);
-        res.send('Finished');
+        res.json({
+            "hello": "world",
+            "jogn": "james",
+            "Billy": ["elliot", "is", "cool"]
+        });
     });
 }
