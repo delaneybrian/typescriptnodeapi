@@ -1,17 +1,31 @@
 import { IUserRepository } from '../interfaces/IUserRepository';
-import * from './mongooseModels/UserModel';
+import { IUser } from '../definitions/IUser';
+import MongooseUser, { IMongooseUser }  from './mongooseModels/UserModel';
 
 class MongooseUserRepository implements IUserRepository{
     
-    getUserById(userId: String): import("../definitions/IUser").IUser {
-        throw new Error("Method not implemented.");
+    getUserById(userId: String): IUser {
+        
+        MongooseUser.g(userId);
+        
     }
-    getAllUsers(): import("../definitions/IUser").IUser[] {
-        throw new Error("Method not implemented.");
-    }
-    addUser(user: import("../definitions/IUser").IUser): void {
+
+    getAllUsers(): IUser[] {
         throw new Error("Method not implemented.");
     }
 
-    
+    addUser(user: IUser): void {
+        
+        return await Pet.create({
+            owner,
+            name
+          })
+            .then((data: IPet) => {
+              return data;
+            })
+            .catch((error: Error) => {
+              throw error;
+            });
+
+    }  
 }
