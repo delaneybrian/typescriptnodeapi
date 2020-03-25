@@ -1,31 +1,53 @@
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { IUser } from '../definitions/IUser';
-import MongooseUser, { IMongooseUser }  from './mongooseModels/UserModel';
+import MongooseUser, { MapToUser, MapToUsers } from './mongooseModels/UserModel';
 
-class MongooseUserRepository implements IUserRepository{
-    
-    getUserById(userId: String): IUser {
-        
-        MongooseUser.g(userId);
-        
+export class MongooseUserRepository implements IUserRepository {
+
+  async getUserById(userId: String): Promise<IUser | null> {
+
+    try {
+      var mongooseUser = await MongooseUser.findById(userId);
+
+      if (mongooseUser) {
+        return MapToUser(mongooseUser);
+      }
+    }
+    catch (error) {
+      console.log(error);
+      throw error;
     }
 
-    getAllUsers(): IUser[] {
-        throw new Error("Method not implemented.");
+    return null;
+  }
+
+  async getAllUsers(): Promise<IUser[]> {
+
+    try {
+      var mongooseUsers = await MongooseUser.find();
+
+      return MapToUsers(mongooseUsers);
     }
+    catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 
-    addUser(user: IUser): void {
-        
-        return await Pet.create({
-            owner,
-            name
-          })
-            .then((data: IPet) => {
-              return data;
-            })
-            .catch((error: Error) => {
-              throw error;
-            });
+  async addUser(user: IUser): Promise<void> {
 
-    }  
+    try {
+      await MongooseUser.create(
+        {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          age: user.age
+        })
+    }
+    catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 }

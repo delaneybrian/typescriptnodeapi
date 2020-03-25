@@ -2,9 +2,9 @@ import { IUser } from '../definitions/IUser';
 
 export interface IUserRepository{
 
-    getUserById(userId: String): IUser
+    getUserById(userId: String): Promise<IUser | null>
 
-    getAllUsers(): Array<IUser>;
+    getAllUsers(): Promise<Array<IUser>>;
 
-    addUser(user: IUser): void;
+    addUser(user: IUser): Promise<void>;
 }
