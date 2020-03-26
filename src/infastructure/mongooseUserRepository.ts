@@ -7,7 +7,7 @@ export class MongooseUserRepository implements IUserRepository {
   async getUserById(userId: String): Promise<IUser | null> {
 
     try {
-      var mongooseUser = await MongooseUser.findById(userId);
+      var mongooseUser = await MongooseUser.findOne({ id: userId });
 
       if (mongooseUser) {
         return MapToUser(mongooseUser);

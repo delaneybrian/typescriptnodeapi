@@ -35,6 +35,10 @@ export class ApiController{
             console.log(user);
     
             await repo.addUser(user);
+
+            res.status(201);
+
+            res.end();
         })
     
         this.router.get('/user', async (req: Request, res: Response, next: NextFunction) => {
