@@ -1,8 +1,18 @@
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { IUser } from '../definitions/IUser';
 import MongooseUser, { MapToUser, MapToUsers } from './mongooseModels/UserModel';
+import { ILogger } from '../interfaces/ILogger';
+import { TYPES } from '../types';
+import { inject, injectable } from 'inversify';
 
+@injectable()
 export class MongooseUserRepository implements IUserRepository {
+
+  constructor(        
+    @inject(TYPES.Logger) logger: ILogger,
+  ){
+
+  }
 
   async getUserById(userId: String): Promise<IUser | null> {
 

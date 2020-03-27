@@ -1,59 +1,56 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { MongooseUserRepository } from '../infastructure/mongooseUserRepository';
+import { Request, Response, NextFunction } from 'express';
 import { IUser } from '../definitions/IUser';
+import { inject } from 'inversify';
+import { TYPES } from '../types';
+import { IUserRepository } from '../interfaces/IUserRepository';
+import { interfaces, controller, httpGet, httpPost, httpDelete, request, queryParam, response, requestParam } from "inversify-express-utils";
 
-export class ApiController{
+@controller('/')
+export class ApiController implements interfaces.Controller {
 
-    constructor(private router: Router){
-        this.routes();
+    //constructor( @inject(TYPES.Logger) private userRepository: IUserRepository) {}
+
+    @httpGet('/')
+    private async test(req: Request, res: Response, next: NextFunction){
+        console.log('this is the api subdomain')
+        res.status(200);
+        res.json({
+            "hello": "world",
+            "jogn": "james",
+            "Billy": ["elliot", "is", "cool"]
+        });
     }
 
-    public routes(){
-        this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
-            console.log('this is the api subdomain')
-            res.status(200);
-            res.json({
-                "hello": "world",
-                "jogn": "james",
-                "Billy": ["elliot", "is", "cool"]
-            });
-        });
-    
-        this.router.post('/user', async (req: Request, res: Response, next: NextFunction) => {
-            
-            let repo = new MongooseUserRepository();
-    
-            console.log(req.body);
-    
-            let user: IUser = {
-                firstName: req.body.firstName,
-                lastName: req.body.firstName,
-                age: req.body.age,
-                id: req.body.id
-            }
-    
-            console.log(user);
-    
-            await repo.addUser(user);
+    @httpPost('/user')
+    private async post(req: Request, res: Response, next: NextFunction){
+        console.log(req.body);
 
-            res.status(201);
+        let user: IUser = {
+            firstName: req.body.firstName,
+            lastName: req.body.firstName,
+            age: req.body.age,
+            id: req.body.id
+        }
 
-            res.end();
-        })
-    
-        this.router.get('/user', async (req: Request, res: Response, next: NextFunction) => {
-    
-            let repo = new MongooseUserRepository();
-    
-            let userId: string = req.query.id;
-    
-            let user = await repo.getUserById(userId);
-    
-            if(user === null)
-                res.status(400);
-    
-            res.json(user);
-            res.status(200);
-        })
+        console.log(user);
+
+        //await this.userRepository.addUser(user);
+
+        res.status(201);
+
+        res.end();
+    }
+
+    @httpGet('/user')
+    private async get(req: Request, res: Response, next: NextFunction) {
+        let userId: string = req.query.id;
+
+        //let user = await this.userRepository.getUserById(userId);
+
+        // if (user === null)
+        //     res.status(400);
+
+        // res.json(user);
+        res.status(200);
     }
 }
