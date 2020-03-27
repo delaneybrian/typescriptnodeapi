@@ -1,5 +1,6 @@
 import { ILogger } from '../interfaces/ILogger';
 import { injectable } from 'inversify';
+import 'reflect-metadata';
 
 @injectable()
 export class ConsoleLogger implements ILogger{

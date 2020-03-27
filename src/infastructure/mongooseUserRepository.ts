@@ -2,17 +2,13 @@ import { IUserRepository } from '../interfaces/IUserRepository';
 import { IUser } from '../definitions/IUser';
 import MongooseUser, { MapToUser, MapToUsers } from './mongooseModels/UserModel';
 import { ILogger } from '../interfaces/ILogger';
-import { TYPES } from '../types';
 import { inject, injectable } from 'inversify';
 
 @injectable()
 export class MongooseUserRepository implements IUserRepository {
 
   constructor(        
-    @inject(TYPES.Logger) logger: ILogger,
-  ){
-
-  }
+    @inject('logger') private _logger: ILogger){}
 
   async getUserById(userId: String): Promise<IUser | null> {
 
@@ -24,7 +20,7 @@ export class MongooseUserRepository implements IUserRepository {
       }
     }
     catch (error) {
-      console.log(error);
+      this._logger.Exception(error);
       throw error;
     }
 
@@ -39,7 +35,7 @@ export class MongooseUserRepository implements IUserRepository {
       return MapToUsers(mongooseUsers);
     }
     catch (error) {
-      console.log(error);
+      this._logger.Exception(error);
       throw error;
     }
   }
@@ -56,7 +52,7 @@ export class MongooseUserRepository implements IUserRepository {
         })
     }
     catch (error) {
-      console.log(error);
+      this._logger.Exception(error);
       throw error;
     }
   }

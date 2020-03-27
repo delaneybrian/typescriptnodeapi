@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import { Bootstrapper } from './Bootstrapper';
 import { InversifyExpressServer } from 'inversify-express-utils';
-import './controllers/apiController';
+import './controllers/usersController';
 
 export class App {
 
